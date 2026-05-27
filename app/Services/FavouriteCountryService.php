@@ -9,26 +9,26 @@ use Illuminate\Support\Facades\Log;
 
 class FavouriteCountryService
 {
-    protected FavouriteCountryRepository $repository;
+   protected FavouriteCountryRepository $repository;
 
-    public function __construct(FavouriteCountryRepository $repository)
-    {
-        $this->repository = $repository;
-    }
+   public function __construct(FavouriteCountryRepository $repository)
+   {
+      $this->repository = $repository;
+   }
 
-    public function saveFavourite(array $validatedData, int $userId): void
-    {
-        $validatedData['user_id'] = $userId;
+   public function saveFavourite(array $validatedData, int $userId): void
+   {
+      $validatedData['user_id'] = $userId;
 
-        DB::beginTransaction();
+      DB::beginTransaction();
 
-        try {
-            $this->repository->create($validatedData);
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error('Failed to save favourite country: '.$e->getMessage());
-            throw $e;
-        }
-    }
+      try {
+         $this->repository->create($validatedData);
+         DB::commit();
+      } catch (Exception $e) {
+         DB::rollBack();
+         Log::error('Failed to save favourite country: ' . $e->getMessage());
+         throw $e;
+      }
+   }
 }
