@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\FavouriteCountry;
 use Illuminate\Database\Eloquent\Collection;
 
-class FavouriteCountryRepository
+class FavouriteCountryRepository implements FavouriteCountryRepositoryInterface
 {
     public function getAllForUser(int $userId): Collection
     {
