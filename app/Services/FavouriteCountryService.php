@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Repositories\FavouriteCountryRepository;
+use App\Repositories\FavouriteCountryRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class FavouriteCountryService
 {
-    protected FavouriteCountryRepository $repository;
+    protected FavouriteCountryRepositoryInterface $repository;
 
-    public function __construct(FavouriteCountryRepository $repository)
+    public function __construct(FavouriteCountryRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

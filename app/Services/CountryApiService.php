@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CountryResource;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -19,7 +20,7 @@ class CountryApiService
                     return [];
                 }
 
-                return $response->json();
+                return (new CountryResource($response->json()[0]))->resolve();
             });
         } catch (Exception $e) {
             Log::error('RestCountries API failed: '.$e->getMessage());

@@ -7,13 +7,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CountryResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'country_code' => $this['cca3'] ?? 'N/A',
+            'name' => $this['name']['common'] ?? 'Unknown',
+            'capital' => $this['capital'][0] ?? 'N/A',
+            'flag_url' => $this['flags']['svg'] ?? '',
+        ];
     }
 }

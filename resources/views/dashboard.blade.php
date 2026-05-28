@@ -30,21 +30,21 @@
                 </form>
             </div>
 
-            @if(!empty($searchResult) && isset($searchResult[0]))
-                @php $country = $searchResult[0]; @endphp
+            @if(!empty($searchResult))
+                @php $country = $searchResult; @endphp
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <img src="{{ $country['flags']['svg'] ?? '' }}" alt="Flag" class="w-32 h-auto border shadow-sm">
+                    <img src="{{ $country['flag_url'] }}" alt="Flag" class="w-32 h-auto border shadow-sm">
                     <div class="flex-1">
-                        <h3 class="text-2xl font-bold">{{ $country['name']['common'] ?? 'Unknown' }}</h3>
-                        <p class="text-gray-600"><strong>Capital:</strong> {{ $country['capital'][0] ?? 'N/A' }}</p>
-                        <p class="text-gray-600"><strong>Code:</strong> {{ $country['cca3'] ?? 'N/A' }}</p>
+                        <h3 class="text-2xl font-bold">{{ $country['name'] }}</h3>
+                        <p class="text-gray-600"><strong>Capital:</strong> {{ $country['capital'] }}</p>
+                        <p class="text-gray-600"><strong>Code:</strong> {{ $country['country_code'] }}</p>
                         
                         <form method="POST" action="{{ route('favourites.store') }}" class="mt-4 space-y-4">
                             @csrf
-                            <input type="hidden" name="country_code" value="{{ $country['cca3'] ?? '' }}">
-                            <input type="hidden" name="name" value="{{ $country['name']['common'] ?? '' }}">
-                            <input type="hidden" name="capital" value="{{ $country['capital'][0] ?? '' }}">
-                            <input type="hidden" name="flag_url" value="{{ $country['flags']['svg'] ?? '' }}">
+                            <input type="hidden" name="country_code" value="{{ $country['country_code'] }}">
+                            <input type="hidden" name="name" value="{{ $country['name'] }}">
+                            <input type="hidden" name="capital" value="{{ $country['capital'] }}">
+                            <input type="hidden" name="flag_url" value="{{ $country['flag_url'] }}">
                             
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Add a Personal Note</label>
