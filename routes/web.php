@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,9 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [CountryController::class, 'index'])->name('dashboard');
+    Route::post('/favourites', [CountryController::class, 'store'])->name('favourites.store');
+    Route::put('/favourites/{id}', [CountryController::class, 'update'])->name('favourites.update');
+    Route::delete('/favourites/{id}', [CountryController::class, 'destroy'])->name('favourites.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
