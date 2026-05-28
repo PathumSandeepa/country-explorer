@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFavouriteRequest;
 use App\Repositories\FavouriteCountryRepository;
 use App\Services\CountryApiService;
 use App\Services\FavouriteCountryService;
@@ -40,22 +41,18 @@ class CountryController extends Controller
         return view('dashboard', compact('searchResult', 'savedCountries'));
     }
 
-    public function store(Request $request)
+    public function store(StoreFavouriteRequest $request)
     {
-        $validated = $request->validate([
-            'country_code' => 'required|string',
-            'name' => 'required|string',
-            'capital' => 'nullable|string',
-            'flag_url' => 'nullable|url',
-            'personal_note' => 'nullable|string|max:500',
-        ]);
-
         try {
-            $this->favouriteService->saveFavourite($validated, Auth::id());
+            $this->favouriteService->saveFavourite($request->validated(), Auth::id());
 
-            return redirect()->route('dashboard')->with('success', 'Country saved successfully!');
+            return redirect()
+                ->route('dashboard')
+                ->with('success', 'Country saved successfully!');
         } catch (\Exception $e) {
-            return redirect()->route('dashboard')->with('error', 'You have already saved this country, or an error occurred.');
+            return redirect()
+                ->route('dashboard')
+                ->with('error', 'You have already saved this country, or an error occurred.');
         }
     }
 
@@ -65,13 +62,17 @@ class CountryController extends Controller
 
         $this->repository->updateNote($id, Auth::id(), $request->personal_note);
 
-        return redirect()->route('dashboard')->with('success', 'Note updated successfully!');
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Note updated successfully!');
     }
 
     public function destroy($id)
     {
         $this->repository->delete($id, Auth::id());
 
-        return redirect()->route('dashboard')->with('success', 'Country removed from favourites.');
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Country removed from favourites.');
     }
 }
