@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('flag_url')->nullable();
             $table->text('personal_note')->nullable();
             $table->timestamps();
-
-            // Database Optimization Index: Prevents a user from favoriting a country twice
             $table->unique(['user_id', 'country_code']);
         });
     }
